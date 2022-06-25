@@ -1,0 +1,61 @@
+   {
+        "user": {
+            "id": "dfdfde04-6b32-4577-a19e-ed051cc5f188"
+        },
+        "travelDate": 1223240713000,
+        "locale": "nl",
+        "ratings": {
+            "general": {
+                "general": 7
+            },
+            "aspects": {
+                "location": 7,
+                "service": 7,
+                "priceQuality": 8,
+                "food": 9,
+                "room": 7,
+                "childFriendly": 7,
+                "interior": null,
+                "size": null,
+                "activities": null,
+                "restaurants": null,
+                "sanitaryState": null,
+                "accessibility": null,
+                "nightlife": null,
+                "culture": null,
+                "surrounding": null,
+                "atmosphere": null,
+                "noviceSkiArea": null,
+                "advancedSkiArea": null,
+                "apresSki": null,
+                "beach": null,
+                "entertainment": null,
+                "environmental": null,
+                "pool": null,
+                "terrace": null,
+                "housing": null,
+                "hygiene": null
+            }
+        },
+        "traveledWith": "FRIENDS",
+        "cooperation": {
+            "importPartner": "VRW",
+            "syndicationPartner": {
+                "id": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        "entryDate": 1223240713000,
+        "status": {
+            "published": true,
+            "checked": true,
+            "reason": "NOT_SET"
+        },
+        "parents": [
+            {
+                "id": "be580095-39b2-456c-a9d0-12db277742db"
+            }
+        ],
+        "id": "627c7b54-65bf-4089-b8ae-acdc7fb42d8e",
+        "heliosId": 3697134,
+        "updatedDate": 1505145436832
+    },
