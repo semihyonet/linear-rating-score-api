@@ -9,6 +9,7 @@ from django.http import HttpResponse
 def index(request, id_ref):
     accommodation = Accommodation.objects.filter(id_ref=id_ref)
 
+#    return JsonResponse(AccommodationViewSerializer(accommodation[0]).data, safe=False)
     return JsonResponse(AccommodationViewSerializer(accommodation, many=True, ).data, safe=False)
 
 
