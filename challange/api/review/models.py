@@ -3,51 +3,58 @@ from django.db import models
 
 # Create your models here.
 
-class User(models.Model):
-    id_ref = models.CharField(max_length=32)
+class CustomUser(models.Model):
+    id_ref = models.CharField(max_length=64)
     original_name = models.CharField(max_length=64)
-    original_email = models.EmailField(64)
+    original_email = models.EmailField(max_length=254, null=True)
     original_ip = models.CharField(max_length=32)
 
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
     travel_date = models.DateTimeField()
     locale = models.CharField(max_length=8)
 
-    location_review = models.SmallIntegerField(null=True) # TODO SMALL INTEGER FIELDS SHOULD HAVE 5 AS MAX
-    service_review = models.SmallIntegerField(null=True)
-    priceQuality_review = models.SmallIntegerField(null=True)
-    food_review = models.SmallIntegerField(null=True)
-    room_review = models.SmallIntegerField(null=True)
-    childFriendly_review = models.SmallIntegerField(null=True)
-    interior_review = models.SmallIntegerField(null=True)
-    size_review = models.SmallIntegerField(null=True)
-    activities_review = models.SmallIntegerField(null=True)
-    restaurants_review = models.SmallIntegerField(null=True)
-    sanitaryState_review = models.SmallIntegerField(null=True)
-    accessibility_review = models.SmallIntegerField(null=True)
-    nightlife_review = models.SmallIntegerField(null=True)
-    culture_review = models.SmallIntegerField(null=True)
-    surrounding_review = models.SmallIntegerField(null=True)
-    atmosphere_review = models.SmallIntegerField(null=True)
-    noviceSkiArea_review = models.SmallIntegerField(null=True)
-    advancedSkiArea_review = models.SmallIntegerField(null=True)
-    apresSki_review = models.SmallIntegerField(null=True)
-    beach_review = models.SmallIntegerField(null=True)
-    entertainment_review = models.SmallIntegerField(null=True)
-    environmental_review = models.SmallIntegerField(null=True)
-    pool_review = models.SmallIntegerField(null=True)
-    terrace_review = models.SmallIntegerField(null=True)
-    housing_review = models.SmallIntegerField(null=True)
-    hygiene_review = models.SmallIntegerField(null=True)
+    general_review = models.PositiveSmallIntegerField( null=True, blank=True)  # TODO SMALL INTEGER FIELDS SHOULD HAVE 5 AS MAX
 
-    traveled_with = models.CharField(max_length=31)
+    location_review = models.PositiveSmallIntegerField(null=True)  # TODO SMALL INTEGER FIELDS SHOULD HAVE 5 AS MAX
+    service_review = models.PositiveSmallIntegerField(null=True)
+    price_quality_review = models.PositiveSmallIntegerField(null=True)
+    food_review = models.PositiveSmallIntegerField(null=True)
+    room_review = models.PositiveSmallIntegerField(null=True)
+    childFriendly_review = models.PositiveSmallIntegerField(null=True)
+    interior_review = models.PositiveSmallIntegerField(null=True)
+    size_review = models.PositiveSmallIntegerField(null=True)
+    activities_review = models.PositiveSmallIntegerField(null=True)
+    restaurants_review = models.PositiveSmallIntegerField(null=True)
+    sanitary_state_review = models.PositiveSmallIntegerField(null=True)
+    accessibility_review = models.PositiveSmallIntegerField(null=True)
+    nightlife_review = models.PositiveSmallIntegerField(null=True)
+    culture_review = models.PositiveSmallIntegerField(null=True)
+    surrounding_review = models.PositiveSmallIntegerField(null=True)
+    atmosphere_review = models.PositiveSmallIntegerField(null=True)
+    novice_ski_area_review = models.PositiveSmallIntegerField(null=True)
+    advanced_ski_area_review = models.PositiveSmallIntegerField(null=True)
+    apres_ski_review = models.PositiveSmallIntegerField(null=True)
+    beach_review = models.PositiveSmallIntegerField(null=True)
+    entertainment_review = models.PositiveSmallIntegerField(null=True)
+    environmental_review = models.PositiveSmallIntegerField(null=True)
+    pool_review = models.PositiveSmallIntegerField(null=True)
+    terrace_review = models.PositiveSmallIntegerField(null=True)
+    housing_review = models.PositiveSmallIntegerField(null=True)
+    hygiene_review = models.PositiveSmallIntegerField(null=True)
+
+    traveled_with = models.CharField(max_length=31, null=True, blank=True)
 
     cooperation_import_partner = models.CharField(max_length=31)
-    cooperation_syndication_partner_id = models.CharField(max_length=31)
+    cooperation_syndication_partner_id = models.CharField(max_length=64)
 
     entry_date = models.DateTimeField()
+
+    status_published = models.BooleanField(default=False)
+    status_checked = models.BooleanField(default=False)
+    status_reason = models.TextField(null=True)
 
 
 class ReviewTitle(models.Model):
@@ -62,3 +69,8 @@ class ReviewText(models.Model):
     text = models.TextField()
     language = models.CharField(max_length=8)
 
+
+# TODO: Morph relationship with Review and Accommodation
+class ReviewParent(models.Model):
+    id_ref = models.CharField(max_length=64)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
