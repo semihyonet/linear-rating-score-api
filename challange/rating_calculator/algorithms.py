@@ -2,7 +2,7 @@ import datetime
 import math
 
 
-def ln_rating_calculator(active_years, current_date_time: datetime.datetime):
+def ln_rating_calculator(active_years: int, current_date_time: datetime.datetime):
     def ln(x):
         return math.log(x, 2)
 
@@ -39,11 +39,10 @@ def ln_rating_calculator(active_years, current_date_time: datetime.datetime):
 
     def calculate(rating_datetime: datetime.datetime, rating: int):
         if current_date_time.year - active_years >= rating_datetime.year:
-            month = 0 # 0 Means it's inactive therefore equal to a set weight
+            month = 0  # 0 Means it's inactive therefore equal to a set weight
         else:
             month = rating_datetime.month
 
         return ln_calculator_with_cache(month, rating)
 
     return calculate
-

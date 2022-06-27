@@ -38,6 +38,8 @@ def seed_reviews():
             "accommodation_id": accommodation.id,
             "id_ref": data["id"],
 
+            "general_review": data["ratings"]["general"]["general"],
+
             "location_review": data["ratings"]["aspects"]["location"],
             "service_review": data["ratings"]["aspects"]["service"],
             "price_quality_review": data["ratings"]["aspects"]["priceQuality"],
