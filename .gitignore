@@ -1,4 +1,5 @@
-env/
+env
+
 Zoover Backend Assignment.docx
 ### Python template
 # Byte-compiled / optimized / DLL files
@@ -141,3 +142,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+
+zoovy.zip
