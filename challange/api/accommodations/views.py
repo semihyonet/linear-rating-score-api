@@ -14,4 +14,4 @@ def index(request, id_ref):
 
 class AccommodationIndexView(views.APIView):
     def get(self, request, format=None):
-        return HttpResponse("sasdasdas")
+        return HttpResponse("Test Route for Index")
