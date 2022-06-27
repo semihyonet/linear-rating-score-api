@@ -1,8 +1,9 @@
 from django.db import models
+from api.core.models import AbstractModel
 
 
 # Create your models here.
-class Accommodation(models.Model):
+class Accommodation(AbstractModel):
     id_ref = models.CharField(max_length=60)
 
     vrw_id = models.PositiveIntegerField()
@@ -43,34 +44,35 @@ class Accommodation(models.Model):
     popularity_score = models.FloatField(default=0)
 
 
-class AccommodationFacility(models.Model):
+class AccommodationFacility(AbstractModel):
     id_ref = models.CharField(max_length=128)
-    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name="accommodation_facility")
 
 
-class AccommodationAward(models.Model):
+class AccommodationAward(AbstractModel):
     award_types = (("w", "winner"), ("r", "recommended"))
 
-    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name="accommodation_awards")
     type = models.CharField(choices=award_types, max_length=32)
     year = models.IntegerField(null=True)
 
 
-class HeliosHistoricalUrl(models.Model):
-    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
+class HeliosHistoricalUrl(AbstractModel):
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE,
+                                      related_name="accommodation_helios_historical_url")
 
     old_url = models.CharField(max_length=128)
     new_url = models.CharField(max_length=128)
 
 
-class AccommodationParents(models.Model):
-    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
+class AccommodationParents(AbstractModel):
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name="accommodation_parents")
 
     id_ref = models.CharField(max_length=63)
 
 
-class AccommodationNames(models.Model):
-    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
+class AccommodationNames(AbstractModel):
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name="accommodation_names")
 
     language = models.CharField(max_length=16)
 

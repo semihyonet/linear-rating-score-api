@@ -1,22 +1,27 @@
 from django.db import models
+from api.accommodations.models import Accommodation
+from api.core.models import AbstractModel
 
 
 # Create your models here.
 
-class CustomUser(models.Model):
+
+class CustomUser(AbstractModel):
     id_ref = models.CharField(max_length=64)
     original_name = models.CharField(max_length=64)
     original_email = models.EmailField(max_length=254, null=True)
     original_ip = models.CharField(max_length=32)
 
 
-class Review(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+class Review(AbstractModel):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user")
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name="accommodation_user")
 
     travel_date = models.DateTimeField()
     locale = models.CharField(max_length=8)
 
-    general_review = models.PositiveSmallIntegerField( null=True, blank=True)  # TODO SMALL INTEGER FIELDS SHOULD HAVE 5 AS MAX
+    general_review = models.PositiveSmallIntegerField(null=True,
+                                                      blank=True)  # TODO SMALL INTEGER FIELDS SHOULD HAVE 5 AS MAX
 
     location_review = models.PositiveSmallIntegerField(null=True)  # TODO SMALL INTEGER FIELDS SHOULD HAVE 5 AS MAX
     service_review = models.PositiveSmallIntegerField(null=True)
@@ -57,20 +62,20 @@ class Review(models.Model):
     status_reason = models.TextField(null=True)
 
 
-class ReviewTitle(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+class ReviewTitle(AbstractModel):
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="review_title")
     title = models.TextField()
     language = models.CharField(max_length=8)
     # TODO Adding a user relationship to this table might be needed
 
 
-class ReviewText(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+class ReviewText(AbstractModel):
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="review_text")
     text = models.TextField()
     language = models.CharField(max_length=8)
 
 
 # TODO: Morph relationship with Review and Accommodation
-class ReviewParent(models.Model):
+class ReviewParent(AbstractModel):
     id_ref = models.CharField(max_length=64)
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="review_parent")
