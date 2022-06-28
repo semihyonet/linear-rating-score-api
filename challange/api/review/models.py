@@ -7,7 +7,7 @@ from api.core.models import AbstractModel
 
 
 class CustomUser(AbstractModel):
-    id_ref = models.CharField(max_length=64)
+    id_ref = models.CharField(max_length=64, unique=True)
     original_name = models.CharField(max_length=64)
     original_email = models.EmailField(max_length=254, null=True)
     original_ip = models.CharField(max_length=32)
@@ -16,6 +16,7 @@ class CustomUser(AbstractModel):
 class Review(AbstractModel):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user")
     accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name="accommodation_user")
+    id_ref = models.CharField(max_length=64, unique=True)
 
     travel_date = models.DateTimeField()
     locale = models.CharField(max_length=8)

@@ -69,6 +69,7 @@ class ReviewViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [
+            "id_ref",
             "user",
             "review_title",
             "review_text",
@@ -147,6 +148,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [
+            "id_ref",
             "user_id",
             "accommodation_id",
             "travel_date",
