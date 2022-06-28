@@ -1,19 +1,26 @@
+import rest_framework.exceptions
+
 from api.accommodations.serializers import *
 from .file_util import accommodation_importer, review_importer
 import datetime
 from api.review.serializers import *
 from api.accommodations.models import Accommodation
 from django.db.models import ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned
+from api.logger import function_logger, app_log
+from api.review.models import CustomUser
 
 
+@function_logger
 def seed_reviews():
     has_data = True
-
     while has_data:
+        app_log.info("Iteration on while loop")
 
         data, has_data = review_importer()
 
         if not has_data:
+            app_log.info("Ending Loop")
             return
 
         user = UserSerializer(data={
@@ -23,19 +30,31 @@ def seed_reviews():
             "original_ip": data["originalUserIp"]
         })
 
-        if not user.is_valid(raise_exception=True):
-            print("NOT VALID : ", user.data)
+        try:
+            app_log.info("Trying to create a user.")
+            user.is_valid(raise_exception=True)
+            user = user.save()
+            app_log.info("Created a user with id {}".format(user.id))
+        except rest_framework.exceptions.ValidationError as e:
+            app_log.error("Validation Error, user already exists! Fetching the User")
+            user = CustomUser.objects.filter(id_ref=data["user"]["id"])[0]
 
         try:
+            app_log.info("Getting the related accommodation")
+
             accommodation = Accommodation.objects.get(id_ref=data["parents"][0]["id"])
         except ObjectDoesNotExist as e:
-            # Skips review which has invalid accommodation_id
+            app_log.error("Invalid accommodation_id, doesn't exists. Continuing")
+            # Skips review if it has an invalid accommodation_id
             continue
+        except MultipleObjectsReturned as e:
+            app_log.error("Multiple accommodations with the same id_ref exists.")
+            accommodation = Accommodation.objects.filter(id_ref=data["parents"][0]["id"])[0]
 
-        user = user.save()
         review = ReviewSerializer(data={
             "user_id": user.id,
             "accommodation_id": accommodation.id,
+
             "id_ref": data["id"],
 
             "general_review": data["ratings"]["general"]["general"],
@@ -79,10 +98,12 @@ def seed_reviews():
             'status_checked': data["status"]["checked"],
             'status_reason': data["status"]["reason"]
         })
-
-        review.is_valid(raise_exception=True)
-        new_review = review.save()
-
+        try:
+            review.is_valid(raise_exception=True)
+            new_review = review.save()
+            app_log.info("Created a new review with id {}".format(new_review.id))
+        except MultipleObjectsReturned as e:
+            continue
         for lang in data["titles"]:
             review_title = ReviewTitleSerializer(data={
                 "title": data["titles"][lang],
@@ -102,6 +123,7 @@ def seed_reviews():
             review_text.save()
 
 
+@function_logger
 def seed_accommodations():
     data = {}
     has_data = True
@@ -140,10 +162,11 @@ def seed_accommodations():
             "popularity_score": data["popularityScore"]
         })
 
-        accommodation.is_valid(raise_exception=True)
-        accommodation = accommodation.save()
-
-        print(accommodation.id)
+        try:
+            accommodation.is_valid(raise_exception=True)
+            accommodation = accommodation.save()
+        except rest_framework.exceptions.ValidationError as e:
+            continue
 
         for lang in data["names"]["main"]:
             accommodation_name = AccommodationNamesSerializer(data={
