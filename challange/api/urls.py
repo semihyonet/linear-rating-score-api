@@ -18,6 +18,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("accommodations/", include("api.accommodations.urls")),
-    path("accommodations/", include("api.review.urls"))
+    path("review/", include("api.review.urls"))
 ]
 
+handler404 = "api.core.views.page_not_found_view"

@@ -3,6 +3,7 @@ from api.accommodations.models import *
 
 
 class AccommodationSerializer(serializers.ModelSerializer):
+
     contact_phone = serializers.CharField(allow_null=True, allow_blank=True)
     contact_email = serializers.CharField(allow_null=True, allow_blank=True)
     contact_url = serializers.CharField(allow_null=True, allow_blank=True)

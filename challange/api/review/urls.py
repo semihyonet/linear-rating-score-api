@@ -3,5 +3,5 @@ from api.review import views
 
 
 urlpatterns = [
-    path('<slug:accommodation_id_ref>/review', views.ReviewListApi.as_view(), name='index'),
+    path('<slug:review_id_ref>/', views.ReviewShowApi.as_view(), name='show'),
 ]
