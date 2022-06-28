@@ -2,10 +2,11 @@ from api.accommodations.serializers import *
 from .file_util import accommodation_importer, review_importer
 import datetime
 from api.review.serializers import *
+from api.accommodations.models import Accommodation
+from django.db.models import ObjectDoesNotExist
 
 
 def seed_reviews():
-
     has_data = True
 
     while has_data:
@@ -25,11 +26,19 @@ def seed_reviews():
         if not user.is_valid(raise_exception=True):
             print("NOT VALID : ", user.data)
 
+        try:
+            accommodation = Accommodation.objects.get(id_ref=data["parents"][0]["id"])
+        except ObjectDoesNotExist as e:
+            # Skips review which has invalid accommodation_id
+            continue
+
         user = user.save()
         review = ReviewSerializer(data={
             "user_id": user.id,
-
+            "accommodation_id": accommodation.id,
             "id_ref": data["id"],
+
+            "general_review": data["ratings"]["general"]["general"],
 
             "location_review": data["ratings"]["aspects"]["location"],
             "service_review": data["ratings"]["aspects"]["service"],
