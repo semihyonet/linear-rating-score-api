@@ -27,25 +27,31 @@ Run server
 $ python3 -m manage runserver
 ```
 
-
 ## Sections
 
 ### Data Import
 
 The Data Import Module serves the purpose of seeding the database with the correct data.
 
-database_seeder.py is the best place to start checking on the module. 
+database_seeder.py is the best place to start checking on the module.
 
 ### Rating Calculator
 
-Calculates the ratings of accommodations by iterating reviews. I'am taking linear weighted avarage of ratings.
+Calculates the ratings of accommodations by iterating reviews. I'am taking linear weighted avarage of ratings. It uses
+in-scope caching increased the performance and speed of the algorithm tremendously.
+
+You can fetch all the ratings of all accommodations with this script.
+
+```shell
+$ python3 -m data-import
+```
 
 ### API
 
-There are 3 different apps in the API. It's been written with django and rest_framework. 
+There are 3 different apps in the API. It's been written with django and rest_framework.
 
 - Core
-Has the Abstract modules that other apps consumes.
+  Has the Abstract modules that other apps consumes.
 - Accommodations
 - Reviews
 
@@ -56,7 +62,7 @@ Has the Abstract modules that other apps consumes.
 We must calculate the Review's dynamically, therefore instead of calculating each record one by one. The weight and
 length and calculation date should be recorded into a cache and only the newest aditions should be calculated to recieve
 the rating of an accommodation. The rating calculation job should be scheduled to dispatch on a daily basis. To keep the
-ratings fresh. 
+ratings fresh.
 
 ### Redis Integration
 
@@ -70,3 +76,8 @@ Calculation. I created those sections to increase readability and separate the m
 on the API therefore the best restructuring would be to put the reviews under a folder named algorithms>Reviews> and for
 the data import module, it would be best to rename is "seeders" and put it together with migrations to a folder named
 Database
+
+### Better ORM Usage
+
+Currently for the listing routes (index) we are fetching all the records and then parsing it to only return few. We
+should fetch a limited amount of records and use chunks for operations where we need to iterate through the records.

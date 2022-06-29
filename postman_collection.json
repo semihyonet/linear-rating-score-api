@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "36cf289c-aa4f-4718-808d-7ef95422e612",
+		"name": "Rating Analyzer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14802413"
+	},
+	"item": [
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get a Review",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/accommodations/0a1c8c03-cf4e-4136-abc9-d8b00b84b1fe/review",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accommodations",
+								"0a1c8c03-cf4e-4136-abc9-d8b00b84b1fe",
+								"review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/accommodations/0a1c8c03-cf4e-4136-abc9-d8b00b84b1fe/review",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accommodations",
+								"0a1c8c03-cf4e-4136-abc9-d8b00b84b1fe",
+								"review"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Acommodations",
+			"item": [
+				{
+					"name": "List Accommodations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/accommodations/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accommodations",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Accommodation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/accommodations/863465ef-a96d-4e93-9c18-096b2bb932b8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accommodations",
+								"863465ef-a96d-4e93-9c18-096b2bb932b8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Calculate Reviews for Accommodation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/accommodations/863465ef-a96d-4e93-9c18-096b2bb932b8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accommodations",
+								"863465ef-a96d-4e93-9c18-096b2bb932b8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost:8000"
+		}
+	]
+}
